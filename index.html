@@ -74,7 +74,7 @@
           I'm Noman Javed, an <strong>Associate Principal Developer</strong> specializing in design patterns, clean code architectures, and high-performance system designs. I construct optimized, scalable systems using C#, .NET 10, Dapper, SQL Server, and modern front-end frameworks.
         </p>
         <div class="hero-ctas">
-          <a href="#projects" class="btn btn-primary">
+          <a href="#projects" class="btn btn-secondary">
             <i class="fa-solid fa-code-branch"></i> View Case Studies
           </a>
           <a href="#contact" class="btn btn-secondary">
@@ -259,12 +259,12 @@
           </div>
         </article>
 
-        <!-- Case Study: BAUM Service Portal -->
+        <!-- Case Study: Solution Management System -->
         <article class="case-study-card" id="cs-baum">
           <div class="cs-header-strip">
             <div class="cs-title-area">
-              <h3>Solution Management System (BAUM Portal)</h3>
-              <span>Enterprise Defect & ERP Sync System | KERN & SOHN GmbH (Germany)</span>
+              <h3>Solution Management System</h3>
+              <span>Enterprise Defect & ERP Sync System | Developed for a Germany-based Manufacturer</span>
             </div>
             <div class="cs-tags">
               <span class="cs-tag">.NET 8</span>
@@ -364,12 +364,12 @@
           </div>
         </article>
 
-        <!-- Case Study: Academy Locksmith's Skynet -->
+        <!-- Case Study: Skynet (SaaS Job Dispatch Platform) -->
         <article class="case-study-card" id="cs-skynet">
           <div class="cs-header-strip">
             <div class="cs-title-area">
-              <h3>Academy Locksmith’s Skynet</h3>
-              <span>High-Scale Dispatch SaaS & Payments Platform | U.S. Dispatch</span>
+              <h3>Skynet (SaaS Job Dispatch Platform)</h3>
+              <span>High-Scale Dispatch SaaS & Payments Platform | Nationwide U.S. dispatch service</span>
             </div>
             <div class="cs-tags">
               <span class="cs-tag">.NET MVC</span>
@@ -466,19 +466,19 @@
           </div>
         </article>
 
-        <!-- Case Study: Softfolio Sage -->
-        <article class="case-study-card" id="cs-sage">
+        <!-- Case Study: Poologics -->
+        <article class="case-study-card" id="cs-poologics">
           <div class="cs-header-strip">
             <div class="cs-title-area">
-              <h3>Softfolio Sage</h3>
-              <span>Mobile ERP Client & Sage100 Synchronization Engine | Mobile ERP App</span>
+              <h3>Poologics</h3>
+              <span>Pool Construction & Logistics Management SaaS | ASP.NET MVC & SQL Server</span>
             </div>
             <div class="cs-tags">
-              <span class="cs-tag">Xamarin</span>
-              <span class="cs-tag">SOAP API</span>
-              <span class="cs-tag">Sage100 ERP</span>
-              <span class="cs-tag">SQLite Offline Cache</span>
-              <span class="cs-tag">Async Sync Queue</span>
+              <span class="cs-tag">ASP.NET MVC</span>
+              <span class="cs-tag">Web API</span>
+              <span class="cs-tag">SQL Server</span>
+              <span class="cs-tag">Concurrency Control</span>
+              <span class="cs-tag">Team Leadership</span>
             </div>
           </div>
           
@@ -487,27 +487,30 @@
               <div class="cs-detail-block">
                 <h4><i class="fa-solid fa-circle-question"></i> The Problem</h4>
                 <p>
-                  Warehouse operations require real-time updates for barcodes, inventory, and stock counts. However, warehouse corridors are frequently "dead zones" for Wi-Fi and mobile connectivity.
+                  Pool construction projects involve complex logistics, resource scheduling, inventory tracking, and client communication. The legacy scheduling platform suffered from high latency during peak seasonal loads, causing job overlapping and dispatcher blockages.
                 </p>
                 <p>
-                  Workers experienced constant application crashes, record duplication, and severe lag when the mobile device tried to communicate directly with Sage100's legacy, high-overhead SOAP API during scanning tasks.
+                  Inefficient SQL queries and a lack of transactional isolation led to database record locking when dispatch coordinators and field engineers updated schedules concurrently, resulting in synchronization conflicts.
                 </p>
                 <div class="key-challenges">
                   <h5>Key Challenges</h5>
                   <ul class="challenge-list">
-                    <li>Lost data when barcode scanners lost network connection.</li>
-                    <li>Extremely slow execution times for complex SOAP API requests.</li>
-                    <li>High device battery drain due to repeated connection attempts.</li>
+                    <li>Database record lockouts during concurrent calendar updates.</li>
+                    <li>Slow response times on mobile devices for on-site crew updates.</li>
+                    <li>Sprint coordination overhead and team alignment issues.</li>
                   </ul>
                 </div>
               </div>
               <div class="cs-detail-block">
                 <h4><i class="fa-solid fa-sitemap"></i> The Architecture</h4>
                 <p>
-                  Built an offline-first mobile synchronization client using Xamarin.Forms and SQLite. Leveraged SQLite on the mobile scanner device to persist scan transactions immediately, securing records before network validation. 
+                  Built using a 3-tier architecture with ASP.NET MVC, Web API, and SQL Server. Implemented a decoupled scheduling engine to handle concurrent date reservations with optimistic concurrency controls (version checking) to prevent database deadlocks and record locks.
                 </p>
                 <p>
-                  Engineered a background sync coordinator that checks connection state, throttles SOAP XML payloads (stripping redundant schemas and achieving a 60% reduction in size), and executes safe batch updates to the Sage100 ERP database on reconnect. Built thread-safe write locks using SemaphoreSlim to avoid lock collisions during synchronization.
+                  Restful APIs were optimized to stream calendar metrics to mobile client apps, utilizing Redis caching for frequently accessed project templates and crew allocations. 
+                </p>
+                <p>
+                  As team lead, coordinated development sprints, guided junior developers on clean coding patterns, and established unit-testing pipelines to validate scheduler behaviors.
                 </p>
               </div>
             </div>
@@ -516,10 +519,10 @@
               <div class="solution-box">
                 <h4><i class="fa-solid fa-lightbulb"></i> Key Integrations</h4>
                 <ul class="solution-list">
-                  <li>Offline-first SQLite local caching architecture.</li>
-                  <li>Background scan synchronization manager.</li>
-                  <li>SOAP XML payload compression.</li>
-                  <li>Thread-safe async write locks on database layers.</li>
+                  <li>ASP.NET Web API for mobile resource dispatches.</li>
+                  <li>SQL Server calendar booking engine.</li>
+                  <li>Optimistic concurrency filters for record safety.</li>
+                  <li>Redis cache allocations for active crews.</li>
                 </ul>
               </div>
               
@@ -527,39 +530,39 @@
                 <h4><i class="fa-solid fa-chart-simple"></i> Performance Metrics</h4>
                 <div class="metrics-sidebar-grid">
                   <div class="metric-sidebar-card">
+                    <div class="metric-sidebar-val">99.9%</div>
+                    <div class="metric-sidebar-desc">Calendar Scheduling Consistency</div>
+                  </div>
+                  <div class="metric-sidebar-card alt">
+                    <div class="metric-sidebar-val">35%</div>
+                    <div class="metric-sidebar-desc">Reduction in Database Lock Latency</div>
+                  </div>
+                  <div class="metric-sidebar-card alt">
                     <div class="metric-sidebar-val">50%</div>
-                    <div class="metric-sidebar-desc">Increase in Scan-to-Ship Processing Speed</div>
-                  </div>
-                  <div class="metric-sidebar-card alt">
-                    <div class="metric-sidebar-val">100%</div>
-                    <div class="metric-sidebar-desc">Zero Scan Record Loss During Network Dropouts</div>
-                  </div>
-                  <div class="metric-sidebar-card alt">
-                    <div class="metric-sidebar-val">30%</div>
-                    <div class="metric-sidebar-desc">Device Battery Usage Savings</div>
+                    <div class="metric-sidebar-desc">Faster Mobile Load Response Times</div>
                   </div>
                   <div class="metric-sidebar-card">
-                    <div class="metric-sidebar-val">&lt;2s</div>
-                    <div class="metric-sidebar-desc">Average Auto-Sync Recovery Latency</div>
+                    <div class="metric-sidebar-val">20%</div>
+                    <div class="metric-sidebar-desc">Increase in Crew Dispatch Throughput</div>
                   </div>
                 </div>
                 <div class="custom-chart">
                   <div class="chart-row">
                     <div class="chart-label">
-                      <span>Barcode Scan Throughput</span>
-                      <span>+50%</span>
+                      <span>Database Lock Latency</span>
+                      <span>-35%</span>
                     </div>
                     <div class="chart-bar-bg">
-                      <div class="chart-bar-fill" data-percent="50"></div>
+                      <div class="chart-bar-fill" data-percent="35"></div>
                     </div>
                   </div>
                   <div class="chart-row">
                     <div class="chart-label">
-                      <span>Battery Optimization</span>
-                      <span>+30%</span>
+                      <span>Mobile API Response Time</span>
+                      <span>-50%</span>
                     </div>
                     <div class="chart-bar-bg">
-                      <div class="chart-bar-fill" data-percent="30"></div>
+                      <div class="chart-bar-fill" data-percent="50"></div>
                     </div>
                   </div>
                 </div>
@@ -754,7 +757,7 @@
   <!-- Footer Section -->
   <footer>
     <div class="container">
-      <p>&copy; 2026 Noman Javed. All rights reserved. | Structured Case Study Portfolio for Systems Engineers</p>
+      <p>&copy; 2026 Noman Javed. All rights reserved.</p>
     </div>
   </footer>
 
