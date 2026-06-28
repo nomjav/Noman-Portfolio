@@ -1,0 +1,19 @@
+{
+  "name": "noman-javed-portfolio",
+  "version": "1.0.0",
+  "description": "Premium developer portfolio for Noman Javed, Associate Principal Software Developer.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y http-server -p 3000 -c-1",
+    "deploy": "npx -y gh-pages -d ."
+  },
+  "keywords": [
+    "portfolio",
+    "net-core",
+    "csharp",
+    "systems-architect",
+    "backend"
+  ],
+  "author": "Noman Javed",
+  "license": "MIT"
+}
