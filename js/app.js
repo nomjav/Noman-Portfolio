@@ -3,10 +3,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize general UI controls
   initNavigation();
   initThemeToggle();
-  initCaseStudyTabs();
   initScrollAnimations();
   initContactClipboard();
 });
@@ -79,7 +77,6 @@ function initThemeToggle() {
 
   // Apply default theme
   document.documentElement.setAttribute('data-theme', currentTheme);
-  updateMermaidTheme(currentTheme);
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
@@ -88,112 +85,14 @@ function initThemeToggle() {
       
       document.documentElement.setAttribute('data-theme', targetTheme);
       localStorage.setItem('theme', targetTheme);
-      
-      // Update Mermaid diagrams theme and re-render active diagrams
-      updateMermaidTheme(targetTheme);
-      reRenderVisibleDiagrams();
     });
   }
-}
-
-function updateMermaidTheme(theme) {
-  if (typeof mermaid !== 'undefined') {
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: theme === 'dark' ? 'dark' : 'default',
-      securityLevel: 'loose',
-      fontFamily: 'Inter, system-ui, sans-serif'
-    });
-  }
-}
-
-async function reRenderVisibleDiagrams() {
-  const activeDiagramContainers = document.querySelectorAll('.cs-pane.active .diagram-container');
-  activeDiagramContainers.forEach(container => {
-    renderMermaidDiagram(container);
-  });
-}
-
-/* --- Case Studies Tabs & Charts --- */
-function initCaseStudyTabs() {
-  const tabGroups = document.querySelectorAll('.case-study-card');
-
-  tabGroups.forEach(group => {
-    const tabs = group.querySelectorAll('.cs-tab-btn');
-    const panes = group.querySelectorAll('.cs-pane');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const targetPaneId = tab.getAttribute('data-tab');
-        
-        // Deactivate other tabs and panes in this group
-        tabs.forEach(t => t.classList.remove('active'));
-        panes.forEach(p => p.classList.remove('active'));
-
-        // Activate selected tab and pane
-        tab.classList.add('active');
-        const activePane = group.querySelector(`.cs-pane[data-pane="${targetPaneId}"]`);
-        if (activePane) {
-          activePane.classList.add('active');
-          
-          // Custom actions for specific tabs
-          if (targetPaneId === 'metrics') {
-            // Animate performance metrics charts
-            animateMetricsCharts(activePane);
-          } else if (targetPaneId === 'architecture') {
-            // Render Mermaid diagram inside the pane
-            const diagContainer = activePane.querySelector('.diagram-container');
-            if (diagContainer) {
-              renderMermaidDiagram(diagContainer);
-            }
-          }
-        }
-      });
-    });
-  });
-}
-
-async function renderMermaidDiagram(container) {
-  // If already rendered and theme didn't change, we can skip.
-  // But to handle theme toggle, we redraw it using saved source.
-  const sourceCode = container.getAttribute('data-code');
-  if (!sourceCode) return;
-
-  // Clear container
-  container.innerHTML = '<div style="color:var(--text-muted)"><i class="fa-solid fa-spinner fa-spin"></i> Rendering architecture diagram...</div>';
-
-  if (typeof mermaid === 'undefined') {
-    container.innerHTML = '<div style="color:var(--color-error)">Failed to load diagram renderer. Please check internet connection.</div>';
-    return;
-  }
-
-  const id = 'mermaid-svg-' + Math.random().toString(36).substr(2, 9);
-  try {
-    const { svg } = await mermaid.render(id, sourceCode);
-    container.innerHTML = svg;
-  } catch (error) {
-    console.error("Mermaid error: ", error);
-    // Find the error element mermaid creates and remove it from body if it got inserted
-    const errEl = document.getElementById('d' + id);
-    if (errEl) errEl.remove();
-    container.innerHTML = `<div style="color:var(--color-error); font-size:0.875rem"><i class="fa-solid fa-triangle-exclamation"></i> Error rendering architecture diagram.</div>`;
-  }
-}
-
-function animateMetricsCharts(pane) {
-  const bars = pane.querySelectorAll('.chart-bar-fill');
-  bars.forEach(bar => {
-    const targetVal = bar.getAttribute('data-percent');
-    // Set timeout to allow rendering to complete before transitions
-    setTimeout(() => {
-      bar.style.width = `${targetVal}%`;
-    }, 100);
-  });
 }
 
 /* --- Scroll Animations (Intersection Observer) --- */
 function initScrollAnimations() {
   const revealElements = document.querySelectorAll('.reveal');
+  const caseStudyCards = document.querySelectorAll('.case-study-card');
   
   const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
@@ -205,6 +104,11 @@ function initScrollAnimations() {
           animateSkills(entry.target);
         }
         
+        // If case study card is revealed, animate its metrics chart
+        if (entry.target.classList.contains('case-study-card')) {
+          animateMetricsCharts(entry.target);
+        }
+        
         observer.unobserve(entry.target);
       }
     });
@@ -214,6 +118,7 @@ function initScrollAnimations() {
   });
 
   revealElements.forEach(el => revealObserver.observe(el));
+  caseStudyCards.forEach(el => revealObserver.observe(el));
 }
 
 function animateSkills(categoryEl) {
@@ -222,6 +127,16 @@ function animateSkills(categoryEl) {
     const level = fill.getAttribute('data-level');
     setTimeout(() => {
       fill.style.width = `${level}%`;
+    }, 200);
+  });
+}
+
+function animateMetricsCharts(cardEl) {
+  const bars = cardEl.querySelectorAll('.chart-bar-fill');
+  bars.forEach(bar => {
+    const targetVal = bar.getAttribute('data-percent');
+    setTimeout(() => {
+      bar.style.width = `${targetVal}%`;
     }, 200);
   });
 }
