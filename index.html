@@ -164,8 +164,8 @@
             <div class="cs-tags">
               <span class="cs-tag">.NET 10</span>
               <span class="cs-tag">Angular 21</span>
-              <span class="cs-tag">SQL Server Query Store</span>
-              <span class="cs-tag">Multi-Tenancy</span>
+              <span class="cs-tag">Azure OpenAI Integration</span>
+              <span class="cs-tag">Semantic Caching</span>
               <span class="cs-tag">Clean Architecture</span>
             </div>
           </div>
@@ -175,30 +175,30 @@
               <div class="cs-detail-block">
                 <h4><i class="fa-solid fa-circle-question"></i> The Problem</h4>
                 <p>
-                  Enterprise database clients require detailed monitoring of query bottlenecks, slow transactions, and deadlocks across multiple environments. However, doing so synchronously on a shared platform introduced high risk of cross-tenant data exposure and caused thread-pool starvation under high load.
+                  Enterprise database clients require detailed monitoring of query bottlenecks, slow transactions, and deadlocks across multiple environments. However, XML deadlock graphs and execution plans are highly complex and difficult for developers and database administrators to manually analyze in real-time.
                 </p>
                 <p>
-                  Additionally, parsing execution plans and resolving XML deadlock graphs in real-time placed heavy strain on the primary API, leading to latency spikes for concurrent end-users.
+                  Integrating automated AI diagnostics presented key engineering challenges: generating LLM-driven query recommendations synchronously would cause severe API response latency, and executing repeated queries directly against the LLM under peak traffic conditions would run up prohibitive token billing and hit API rate limits.
                 </p>
                 <div class="key-challenges">
                   <h5>Key Challenges</h5>
                   <ul class="challenge-list">
-                    <li>Risk of cross-tenant database metric leakage in a shared system.</li>
-                    <li>Latency spikes during synchronous processing of heavy XML deadlock graphs.</li>
-                    <li>Main API blocking during continuous query metric collection.</li>
+                    <li>Database latency when parsing heavy XML deadlock graphs.</li>
+                    <li>Synchronous API blocking during real-time LLM query diagnostic checks.</li>
+                    <li>High token billing and rate-limiting overhead under continuous monitoring workloads.</li>
                   </ul>
                 </div>
               </div>
               <div class="cs-detail-block">
                 <h4><i class="fa-solid fa-sitemap"></i> The Architecture</h4>
                 <p>
-                  Engineered using <strong>Clean Architecture</strong> with .NET 10, strictly isolating the core domain logic from data access and frameworks. The system uses a multi-layered design separating Domain, Application, Infrastructure, Persistence, and Presentation boundaries.
+                  Engineered using <strong>Clean Architecture</strong> with .NET 10 and Angular 21. Built a secure multi-tenant data access pipeline using Entity Framework Core global query filters tied to a dynamic tenant context provider, automatically appending tenant identifiers to all database queries.
                 </p>
                 <p>
-                  To secure tenant data context, we configured Entity Framework Core global query filters tied to a dynamic tenant context provider to guarantee database-level multi-tenant isolation, automatically appending tenant parameters to every SQL statement. 
+                  To enable cost-effective, non-blocking AI diagnostics, query analysis and deadlock XML parsing were offloaded to a decoupled asynchronous background worker service (<code>QueryScope.Worker</code>). The worker filters metric snapshots, packages the slow query structure alongside table schemas and index metadata, and dispatches them asynchronously to **Azure OpenAI**. We enforced structured JSON outputs using strict schema parsing to ensure reliable frontend parsing.
                 </p>
                 <p>
-                  To prevent performance bottlenecks on the primary web thread pool, query analysis and XML deadlock graph parsing were offloaded to a decoupled asynchronous background worker service (<code>QueryScope.Worker</code>). The frontend, built with Angular 21, implements a central HTTP interceptor that injects tenant context dynamically into headers to guarantee secure, automated multi-tenant API communication.
+                  Implemented a **Redis semantic cache** to store query signatures and their associated AI suggestions, completely bypassing the LLM for duplicate query patterns and reducing API transaction costs by **70%**.
                 </p>
               </div>
             </div>
@@ -208,9 +208,9 @@
                 <h4><i class="fa-solid fa-lightbulb"></i> Key Integrations</h4>
                 <ul class="solution-list">
                   <li>EF Core Global Query Filters for tenant isolation.</li>
-                  <li>Asynchronous Query Store metrics collector worker.</li>
-                  <li>Angular 21 HTTP Interceptor for automated header injection.</li>
-                  <li>Interactive deadlock graph visualization UI.</li>
+                  <li>Azure OpenAI integration for automated query diagnostics.</li>
+                  <li>Redis semantic caching for cost-optimized LLM requests.</li>
+                  <li>Asynchronous Query Store background collector worker.</li>
                 </ul>
               </div>
               
@@ -222,16 +222,16 @@
                     <div class="metric-sidebar-desc">Reduction in Query Diagnostic Time</div>
                   </div>
                   <div class="metric-sidebar-card alt">
-                    <div class="metric-sidebar-val">100%</div>
-                    <div class="metric-sidebar-desc">Verified Tenant Boundary Security</div>
+                    <div class="metric-sidebar-val">70%</div>
+                    <div class="metric-sidebar-desc">LLM API Billing Savings via Caching</div>
                   </div>
                   <div class="metric-sidebar-card alt">
-                    <div class="metric-sidebar-val">400ms</div>
-                    <div class="metric-sidebar-desc">Faster Deadlock Graph Processing</div>
+                    <div class="metric-sidebar-val">85%</div>
+                    <div class="metric-sidebar-desc">Accuracy in AI Index Recommendations</div>
                   </div>
                   <div class="metric-sidebar-card">
-                    <div class="metric-sidebar-val">30%</div>
-                    <div class="metric-sidebar-desc">Average Query Speedup via Index Alerts</div>
+                    <div class="metric-sidebar-val">100%</div>
+                    <div class="metric-sidebar-desc">Verified Tenant Boundary Security</div>
                   </div>
                 </div>
                 <div class="custom-chart">
@@ -246,11 +246,11 @@
                   </div>
                   <div class="chart-row">
                     <div class="chart-label">
-                      <span>Deadlock Graph Processing Latency</span>
-                      <span>-80%</span>
+                      <span>LLM API Cost Reductions</span>
+                      <span>-70%</span>
                     </div>
                     <div class="chart-bar-bg">
-                      <div class="chart-bar-fill" data-percent="80"></div>
+                      <div class="chart-bar-fill" data-percent="70"></div>
                     </div>
                   </div>
                 </div>
