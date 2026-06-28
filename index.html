@@ -6,8 +6,8 @@
   <title>Noman Javed | Associate Principal Software Developer | Systems & Backend specialist</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Senior / Associate Principal Software Developer specializing in C#, .NET 8, Clean Architecture, high-performance APIs, database optimization, and enterprise integrations.">
-  <meta name="keywords" content="Noman Javed, Software Developer, .NET Core, Backend Developer, Systems Engineer, C#, Web API, SQL Server, Clean Architecture, Angular">
+  <meta name="description" content="Senior / Associate Principal Software Developer specializing in C#, .NET 10, Clean Architecture, high-performance APIs, database optimization, and multi-tenant systems.">
+  <meta name="keywords" content="Noman Javed, Software Developer, .NET 10, Backend Developer, Systems Engineer, C#, Web API, SQL Server, Clean Architecture, Angular 21, QueryScope">
   <meta name="author" content="Noman Javed">
   
   <!-- Open Graph / Facebook -->
@@ -71,7 +71,7 @@
         </div>
         <h1 class="hero-title">Building Resilient <span>Backend Systems</span> & Web Architectures</h1>
         <p class="hero-description">
-          I'm Noman Javed, an <strong>Associate Principal Developer</strong> specializing in design patterns, clean code architectures, and high-performance system designs. I construct optimized, scalable systems using C#, .NET 8, Dapper, SQL Server, and modern front-end frameworks.
+          I'm Noman Javed, an <strong>Associate Principal Developer</strong> specializing in design patterns, clean code architectures, and high-performance system designs. I construct optimized, scalable systems using C#, .NET 10, Dapper, SQL Server, and modern front-end frameworks.
         </p>
         <div class="hero-ctas">
           <a href="#projects" class="btn btn-primary">
@@ -154,6 +154,226 @@
 
       <div class="case-study-showcase">
         
+        <!-- Case Study: QueryScope -->
+        <article class="case-study-card" id="cs-queryscope">
+          <div class="cs-header-strip">
+            <div class="cs-title-area">
+              <h3>QueryScope</h3>
+              <span>Multi-Tenant Database Performance Monitor | .NET 10 & Angular 21</span>
+            </div>
+            <div class="cs-tags">
+              <span class="cs-tag">.NET 10</span>
+              <span class="cs-tag">Angular 21</span>
+              <span class="cs-tag">SQL Server Query Store</span>
+              <span class="cs-tag">Multi-Tenancy</span>
+              <span class="cs-tag">Clean Architecture</span>
+            </div>
+          </div>
+          
+          <div class="cs-tab-headers">
+            <button class="cs-tab-btn active" data-tab="problem"><i class="fa-solid fa-circle-question"></i> The Problem</button>
+            <button class="cs-tab-btn" data-tab="architecture"><i class="fa-solid fa-sitemap"></i> Architecture</button>
+            <button class="cs-tab-btn" data-tab="metrics"><i class="fa-solid fa-chart-line"></i> The Metrics</button>
+            <button class="cs-tab-btn" data-tab="code"><i class="fa-solid fa-code"></i> The Code</button>
+          </div>
+
+          <div class="cs-tab-body">
+            
+            <!-- Tab Pane: Problem -->
+            <div class="cs-pane active" data-pane="problem">
+              <div class="problem-pane">
+                <div class="problem-text">
+                  <h4>Multi-Tenant Query Performance Tracking & Isolation</h4>
+                  <p>
+                    Enterprise database clients require detailed monitoring of query bottlenecks, slow transactions, and deadlocks across multiple environments. However, doing so synchronously on a shared platform introduced high risk of cross-tenant data exposure and caused thread-pool starvation under high load.
+                  </p>
+                  <p>
+                    Additionally, parsing execution plans and resolving XML deadlock graphs in real-time placed heavy strain on the primary API, leading to latency spikes for concurrent end-users.
+                  </p>
+                  <div class="key-challenges">
+                    <h5>Key Challenges</h5>
+                    <ul class="challenge-list">
+                      <li>Risk of cross-tenant database metric leakage in a shared system.</li>
+                      <li>Latency spikes during synchronous processing of heavy XML deadlock graphs.</li>
+                      <li>Main API blocking during continuous query metric collection.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="solution-box">
+                  <h4><i class="fa-solid fa-lightbulb"></i> Architectural Solution</h4>
+                  <p>
+                    Designed a secure, decoupled multi-tenant monitoring pipeline based on .NET 10 and Angular 21.
+                  </p>
+                  <ul class="solution-list">
+                    <li>Secured tenant data using EF Core Global Query Filters.</li>
+                    <li>Offloaded query collection to an asynchronous background worker service.</li>
+                    <li>Created an Angular 21 HTTP Interceptor for automatic tenant context mapping.</li>
+                    <li>Visualized complex deadlock process trees on an interactive frontend.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab Pane: Architecture -->
+            <div class="cs-pane" data-pane="architecture">
+              <div class="architecture-pane">
+                <div class="arch-header">
+                  <div class="arch-header-desc">
+                    <h4>Multi-Tenant Asynchronous Processing Architecture</h4>
+                    <p>System structure showing Angular tenant interception, .NET 10 Web API routing, background worker polling, and database isolation.</p>
+                  </div>
+                </div>
+                <!-- Mermaid diagram source config -->
+                <div class="diagram-container" data-code="graph TD
+  User([Angular 21 UI]) -->|1. Intercept HTTP / Inject TenantId| Interceptor[Tenant Header Interceptor]
+  Interceptor -->|2. Secure API Request| API[QueryScope API / .NET 10]
+  
+  subgraph API Core Context
+    API -->|3. Get Selected Tenant| Context[Tenant Context Service]
+    Context -->|4. Configure Filters| EF[EF Core Context]
+  end
+
+  EF -->|5. Isolated Query| DB[(SQL Server / Query Store)]
+  
+  Worker[QueryScope Background Worker] -->|6. Async Metric Collection| DB
+  Worker -->|7. Generate Alerts| Alert[Alerting System]
+
+  style User fill:#6366f1,stroke:#4f46e5,stroke-width:2px,color:#fff
+  style Interceptor fill:#1e293b,stroke:#334155,stroke-width:1px,color:#fff
+  style API fill:#1e293b,stroke:#334155,stroke-width:1px,color:#fff
+  style Context fill:#1e293b,stroke:#334155,stroke-width:1px,color:#fff
+  style EF fill:#06b6d4,stroke:#0891b2,stroke-width:1px,color:#fff
+  style DB fill:#131b2e,stroke:#334155,stroke-width:2px,color:#fff
+  style Worker fill:#6366f1,stroke:#4f46e5,stroke-width:1px,color:#fff
+  style Alert fill:#1e293b,stroke:#334155,stroke-width:1px,color:#fff">
+                  <div style="color:var(--text-muted)"><i class="fa-solid fa-spinner fa-spin"></i> Initializing diagram...</div>
+                </div>
+                
+                <div class="arch-tech-grid">
+                  <div class="arch-tech-card">
+                    <h5>Angular 21 Core</h5>
+                    <p>Leveraged standalone components and optimized dependency injection for modular component loads.</p>
+                  </div>
+                  <div class="arch-tech-card">
+                    <h5>Background Worker</h5>
+                    <p>The <code>QueryScope.Worker</code> collects deadlock snapshots asynchronously from SQL Server, preventing web process blocking.</p>
+                  </div>
+                  <div class="arch-tech-card">
+                    <h5>Global Tenant Isolation</h5>
+                    <p>Configured database context query filters to automatically append <code>WHERE TenantId = @TenantId</code> to all generated SQL queries.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab Pane: Metrics -->
+            <div class="cs-pane" data-pane="metrics">
+              <div class="metrics-pane">
+                <div class="metrics-list">
+                  <div class="metric-highlight">
+                    <div class="metric-val">95%</div>
+                    <div class="metric-desc">Reduction in Query Diagnostic Time</div>
+                  </div>
+                  <div class="metric-highlight alt">
+                    <div class="metric-val">100%</div>
+                    <div class="metric-desc">Verified Tenant Boundary Security Isolation</div>
+                  </div>
+                  <div class="metric-highlight alt">
+                    <div class="metric-val">400ms</div>
+                    <div class="metric-desc">Faster Deadlock Graph Parsing Speed</div>
+                  </div>
+                  <div class="metric-highlight">
+                    <div class="metric-val">30%</div>
+                    <div class="metric-desc">Average Query Speedup via Index Alerts</div>
+                  </div>
+                </div>
+                <div class="metrics-chart-box">
+                  <h4>Diagnostic & Isolation Efficiency</h4>
+                  <div class="custom-chart">
+                    <div class="chart-row">
+                      <div class="chart-label">
+                        <span>Troubleshooting Workflow Speed</span>
+                        <span>+95%</span>
+                      </div>
+                      <div class="chart-bar-bg">
+                        <div class="chart-bar-fill" data-percent="95"></div>
+                      </div>
+                    </div>
+                    <div class="chart-row">
+                      <div class="chart-label">
+                        <span>Deadlock Graph Processing Latency</span>
+                        <span>-80%</span>
+                      </div>
+                      <div class="chart-bar-bg">
+                        <div class="chart-bar-fill" data-percent="80"></div>
+                      </div>
+                    </div>
+                    <div class="chart-row">
+                      <div class="chart-label">
+                        <span>Query Optimization Rate</span>
+                        <span>+30%</span>
+                      </div>
+                      <div class="chart-bar-bg">
+                        <div class="chart-bar-fill" data-percent="30"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab Pane: Code -->
+            <div class="cs-pane" data-pane="code">
+              <div class="code-pane">
+                <div class="code-header">
+                  <div class="code-header-desc">
+                    <h4>Multi-Tenant Context Mapping (Backend & Frontend)</h4>
+                    <p>Left: .NET 10 EF Core global tenant filter configuration. Right: Angular 21 HTTP Interceptor injecting tenant headers.</p>
+                  </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                  <div class="mock-window">
+                    <div class="window-header">
+                      <div class="window-dots"><div class="window-dot wd-close"></div><div class="window-dot wd-min"></div><div class="window-dot wd-max"></div></div>
+                      <div class="window-title">QueryScopeDbContext.cs</div>
+                    </div>
+                    <pre style="font-size:0.8rem; padding:1.25rem;"><code><span class="code-keyword">protected override void</span> <span class="code-func">OnModelCreating</span>(<span class="code-type">ModelBuilder</span> builder)
+{
+    <span class="code-keyword">base</span>.<span class="code-func">OnModelCreating</span>(builder);
+
+    <span class="code-comment">// Apply tenant-level filter automatically</span>
+    builder.<span class="code-func">Entity</span>&lt;<span class="code-type">CollectedQuery</span>&gt;()
+        .<span class="code-func">HasQueryFilter</span>(q => q.TenantId == _tenantProvider.TenantId);
+
+    builder.<span class="code-func">Entity</span>&lt;<span class="code-type">DeadlockEvent</span>&gt;()
+        .<span class="code-func">HasQueryFilter</span>(d => d.TenantId == _tenantProvider.TenantId);
+}</code></pre>
+                  </div>
+                  <div class="mock-window">
+                    <div class="window-header">
+                      <div class="window-dots"><div class="window-dot wd-close"></div><div class="window-dot wd-min"></div><div class="window-dot wd-max"></div></div>
+                      <div class="window-title">tenant-header.interceptor.ts</div>
+                    </div>
+                    <pre style="font-size:0.8rem; padding:1.25rem;"><code><span class="code-keyword">export const</span> <span class="code-func">tenantInterceptor</span>: <span class="code-type">HttpInterceptorFn</span> = (req, next) => {
+  <span class="code-keyword">const</span> tenantService = <span class="code-func">inject</span>(TenantContextService);
+  <span class="code-keyword">const</span> tenantId = tenantService.<span class="code-func">getCurrentTenantId</span>();
+
+  <span class="code-keyword">if</span> (tenantId) {
+    <span class="code-keyword">const</span> cloneReq = req.<span class="code-func">clone</span>({
+      headers: req.headers.<span class="code-func">set</span>(<span class="code-string">'X-Tenant-Id'</span>, tenantId)
+    });
+    <span class="code-keyword">return</span> <span class="code-func">next</span>(cloneReq);
+  }
+  <span class="code-keyword">return</span> <span class="code-func">next</span>(req);
+};</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </article>
+
         <!-- Case Study 1: BAUM Service Portal -->
         <article class="case-study-card" id="cs-baum">
           <div class="cs-header-strip">
