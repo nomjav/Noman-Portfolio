@@ -154,6 +154,100 @@
 
       <div class="case-study-showcase">
         
+        <!-- Case Study: AI Booking-Site Builder (in progress) -->
+        <article class="case-study-card" id="cs-booking-builder">
+          <div class="cs-header-strip">
+            <div class="cs-title-area">
+              <div class="cs-status"><div class="hero-badge-pulse"></div><span>In Active Development</span></div>
+              <h3>AI Booking-Site Builder</h3>
+              <span>Multi-Tenant Appointment SaaS Platform | .NET 10 & React</span>
+            </div>
+            <div class="cs-tags">
+              <span class="cs-tag">.NET 10</span>
+              <span class="cs-tag">React & TypeScript</span>
+              <span class="cs-tag">Multi-Tenancy</span>
+              <span class="cs-tag">LLM Integration</span>
+              <span class="cs-tag">Legacy Modernization</span>
+            </div>
+          </div>
+          
+          <div class="cs-card-body">
+            <div class="cs-details-column">
+              <div class="cs-detail-block">
+                <h4><i class="fa-solid fa-circle-question"></i> The Problem</h4>
+                <p>
+                  The product lets any appointment-based business (salons, physiotherapists, tutors, trainers, repair shops) describe itself in plain language and get a themed, bookable website on its own subdomain in about a minute, backed by a per-tenant dashboard for bookings, services, staff and opening hours.
+                </p>
+                <p>
+                  The existing codebase only looked finished. The onboarding UI "parsed" prompts with a keyword check, its progress bar was a timer, and "Publish" saved nothing. The legacy backend was a single-tenant clinic system on .NET 5 (out of support since 2022) where no controller enforced authorization and the tenant ID was read from the request, so any caller could read or modify any other tenant's data.
+                </p>
+                <div class="key-challenges">
+                  <h5>Key Challenges</h5>
+                  <ul class="challenge-list">
+                    <li>Deciding whether to repair or rebuild an insecure legacy backend within a 6-week solo timeline.</li>
+                    <li>One domain model that fits every appointment-based industry without per-industry code branches.</li>
+                    <li>Double-booking prevention and time zone correctness across daylight-saving changes.</li>
+                    <li>An AI onboarding step that must never become a single point of failure.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="cs-detail-block">
+                <h4><i class="fa-solid fa-sitemap"></i> The Architecture</h4>
+                <p>
+                  Audited the legacy backend and documented its defects: missing authorization, two conflicting JWT configurations with authentication never enabled, mixed EF6/EF Core, unvalidated input parsing that surfaced as 500 errors, and <code>Max+1</code> record numbering with no unique constraint. The conclusion was to rebuild on <strong>.NET 10</strong> as a <strong>modular monolith</strong> (Tenancy, Identity, Onboarding, Sites, Booking, Notifications) and reuse the legacy system's data-model designs, including its double-entry accounting model, rather than its code.
+                </p>
+                <p>
+                  Tenant isolation uses <strong>EF Core global query filters</strong> driven by a scoped tenant context. The tenant is resolved from the JWT claim for dashboard calls and from the <code>Host</code> header via a <code>TenantDomain</code> table for public sites, never from the request body. Custom domains are therefore just another row, and automated cross-tenant isolation tests run on every endpoint.
+                </p>
+                <p>
+                  A single <code>SiteConfig</code> JSON contract feeds the onboarding form, the live preview, the publish API and the public site, so the preview renders the same component customers see. The AI step sits behind a swappable extractor interface with structured JSON output and only pre-fills the form; on timeout or error the flow falls back to manual entry. The booking engine calculates availability in the tenant's IANA time zone, stores UTC, and prevents double booking with a locked transaction and an idempotency key.
+                </p>
+              </div>
+            </div>
+            
+            <div class="cs-sidebar-column">
+              <div class="solution-box">
+                <h4><i class="fa-solid fa-lightbulb"></i> Key Design Decisions</h4>
+                <ul class="solution-list">
+                  <li>Rebuild over repair, reusing legacy designs but not legacy code.</li>
+                  <li>Tenant resolved only from JWT or host, enforced by global query filters.</li>
+                  <li>Generic Provider / Service / Customer / Booking model with industry labels as config.</li>
+                  <li>Swappable LLM provider with a guaranteed manual fallback.</li>
+                  <li>Outbox table so bookings and their emails commit in one transaction.</li>
+                </ul>
+              </div>
+              
+              <div class="metrics-chart-box">
+                <h4><i class="fa-solid fa-list-check"></i> Engagement Scope</h4>
+                <div class="metrics-sidebar-grid">
+                  <div class="metric-sidebar-card">
+                    <div class="metric-sidebar-val">6 Wks</div>
+                    <div class="metric-sidebar-desc">Solo, AI-Assisted MVP Delivery Plan</div>
+                  </div>
+                  <div class="metric-sidebar-card alt">
+                    <div class="metric-sidebar-val">13</div>
+                    <div class="metric-sidebar-desc">Tables in the New Multi-Tenant Schema</div>
+                  </div>
+                  <div class="metric-sidebar-card alt">
+                    <div class="metric-sidebar-val">6</div>
+                    <div class="metric-sidebar-desc">Backend Modules in the Modular Monolith</div>
+                  </div>
+                  <div class="metric-sidebar-card">
+                    <div class="metric-sidebar-val">.NET 10</div>
+                    <div class="metric-sidebar-desc">Upgrade Path from Unsupported .NET 5</div>
+                  </div>
+                </div>
+                <ul class="milestone-list">
+                  <li><span>Week 3</span> Onboarding live on staging</li>
+                  <li><span>Week 4</span> Customers can book</li>
+                  <li><span>Week 5</span> Owner dashboard complete</li>
+                  <li><span>Week 6</span> Hardened for pilot businesses</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <!-- Case Study: QueryScope -->
         <article class="case-study-card" id="cs-queryscope">
           <div class="cs-header-strip">
