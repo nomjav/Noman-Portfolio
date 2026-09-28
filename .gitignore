@@ -10,9 +10,9 @@ Thumbs.db
 npm-debug.log*
 
 # Editor / IDE settings
-.vscode/
 .idea/
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
+config.bat
